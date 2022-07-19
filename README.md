@@ -45,8 +45,8 @@ If you'd like to provide the Host to use, say, for sandbox access,
 this can also be provided in the constructor:
 
 ```typescript
-const client = new Eclisnt(username, password, {
-  host: 'google.com/v1',
+const client = new Eclient(username, password, {
+  host: 'mware-dev.crscreditapi.com/api',
 })
 ```
 
@@ -56,23 +56,30 @@ where the options can include:
 
 ### Experian Calls
 
-As stated in the Persona
-[documentation](https://docs.withpersona.com/reference/accounts-1):
-
-> The account represents a verified individual and contains one or
-> more inquiries. The primary use of the account endpoints is to
-> fetch previously submitted information for an individual.
+The CRS Credit API
+[documentation](https://crsecreditdataapi.redoc.ly/) is broken up into
+different sections, and for the Experian section, we have implemented
+the calls most important to our work.
 
 #### [Basic Credit Report](https://crsecreditdataapi.redoc.ly/tag/Experian#operation/creditReportBasic_1)
 
-You can get a list of all existing Accounts with a single call:
+You can get a Basic Experian Credit Report with a single call:
 
 ```typescript
-const resp = await client.experian.basic()
+const resp = await client.experian.basic({
+  firstName: 'ANDERSON',
+  lastName: 'LAURIE',
+  ssn: '666-45-5730',
+  street1: '9817 LOOP BLVD',
+  street2: 'APT G',
+  city: 'CALIFORNIA CITY',
+  state: 'CA',
+  zip: '93505-1352',
+})
 ```
 
-where the default is to display the first 10 Accounts for the organization,
-and the response will be something like:
+where the user is a test user for Experian's sandbox instance. And the
+response will be something like:
 
 ```javascript
 {
@@ -104,6 +111,18 @@ and the response will be something like:
 
 where the complete, detailed structure is in the Typescript `interface`
 definitions.
+
+There is an _optional_ config, as detailed in the CRS Credit docs, and
+that can be specified as:
+
+```typescript
+const resp = await client.experian.basic(person, {
+  config: 'exp-prequal-vantage4',
+})
+```
+
+and that will be the _version_ of the report that's pulled from Experian
+and returned to CRS Credit, and ultimately, the client.
 
 
 ## Development
