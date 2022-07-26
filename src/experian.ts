@@ -195,4 +195,18 @@ export class ExperianApi {
     }
     return { success: true, report: resp?.payload }
   }
+
+  /*
+   * Simple function to extract the Vantage Score from the Experian Report
+   * and return it - or `undefined` if there's nothing to be found.
+   */
+  vantageScore(rpt: CreditReport): number | undefined {
+    let score
+    const vantage = (rpt?.riskModel ?? [])
+      .find(rm => rm.modelIndicator === 'V4')
+    if (vantage?.score) {
+      score = Number(vantage?.score)
+    }
+    return score
+  }
 }
