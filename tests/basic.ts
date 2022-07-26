@@ -22,7 +22,7 @@ import { Ecredit } from '../src/index'
   const one = await client.experian.basic(laurie, { config: 'exp-prequal-vantage4' })
   // console.log('ONE', one)
   if (one.success) {
-    console.log('Success! Pulled the prequal report for test person')
+    console.log(`Success! Pulled the prequal report for test person... Vantage Score: ${client.experian.vantageScore(one?.report!)}`)
   } else {
     console.log('Error! Getting soft Experian pull failed, and the output is:')
     console.log(one)
@@ -32,7 +32,7 @@ import { Ecredit } from '../src/index'
   const two = await client.experian.basic(laurie, { config: 'exp-hard-vantage4' })
   // console.log('TWO', two)
   if (two.success) {
-    console.log('Success! Pulled the hard report for test person')
+    console.log(`Success! Pulled the hard report for test person... Vantage Score: ${client.experian.vantageScore(two?.report!)}`)
   } else {
     console.log('Error! Getting hard Experian pull failed, and the output is:')
     console.log(two)
