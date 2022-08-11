@@ -209,4 +209,34 @@ export class ExperianApi {
     }
     return score
   }
+
+  /*
+   * Simple function to extract the FICO Score from the Experian Report
+   * and return it - or `undefined` if there's nothing to be found.
+   */
+  ficoScore(rpt: CreditReport): number | undefined {
+    let score
+    const fico = (rpt?.riskModel ?? [])
+      .find(rm => rm.modelIndicator === 'F9')
+    if (fico?.score) {
+      score = Number(fico?.score)
+    }
+    return score
+  }
+
+  /*
+   * Simple predicate function to look and see if the User's credit has
+   * been 'frozen' so that Credit Reports can't be run against it - for
+   * anti-fraud reasons.
+   */
+  isFrozen(rpt: CreditReport): boolean {
+    let score = false
+    // this needs to wait until we have the data to work with
+    const vantage = (rpt?.riskModel ?? [])
+      .find(rm => rm.modelIndicator === 'V4')
+    if (vantage?.score) {
+      score = true
+    }
+    return score
+  }
 }
