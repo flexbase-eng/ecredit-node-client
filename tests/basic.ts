@@ -58,4 +58,25 @@ import { Ecredit } from '../src/index'
     console.log(fou)
   }
 
+  const mark = {
+    firstName: 'MARK',
+    lastName: 'KINTEH',
+    street1: '4930 KNIGHTS WAY',
+    street2: '',
+    city: 'ANCHORAGE',
+    state: 'AK',
+    zip: '99508-4808',
+    ssn: '666-53-3460'
+  }
+
+  console.log('doing a soft pull from Experian for FICO score on a frozen account...')
+  const fiv = await client.experian.basic(mark, { config: 'exp-prequal-fico9' })
+  // console.log('FIV', fiv)
+  if (fiv.success) {
+    console.log(`Success! Pulled the prequal report for test person with a frozen account: ${client.experian.isFrozen(fiv?.report!)}`)
+  } else {
+    console.log('Error! Getting soft Experian FICO pull failed, and the output is:')
+    console.log(fiv)
+  }
+
 })()
