@@ -17,6 +17,7 @@ export interface CreditReport {
   publicRecord?: PublicRecord[];
   riskModel?: RiskModel[];
   tradeline?: Tradeline[];
+  statement?: Statement[];
   endTotals?: Totals[];
 }
 
@@ -136,6 +137,12 @@ export interface EnhancedPaymentData {
   paymentLevelDate: string;
 }
 
+export interface Statement {
+  dateReported?: string;
+  statementText?: string;
+  type?: string;
+}
+
 export interface Totals {
   totalSegments: string;
   totalLength: string;
@@ -232,9 +239,9 @@ export class ExperianApi {
   isFrozen(rpt: CreditReport): boolean {
     let score = false
     // this needs to wait until we have the data to work with
-    const vantage = (rpt?.riskModel ?? [])
-      .find(rm => rm.modelIndicator === 'V4')
-    if (vantage?.score) {
+    const stmt = (rpt?.statement ?? [])
+      .find(st => /.* FILE FROZEN .*/.test(st.statementText ?? ''))
+    if (stmt?.dateReported) {
       score = true
     }
     return score
