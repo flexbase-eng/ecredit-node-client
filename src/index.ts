@@ -4,6 +4,7 @@ import path from 'path'
 
 import { AuthenticationApi } from './authentication'
 import { ExperianApi } from './experian'
+import { TransUnionApi } from './transunion'
 
 const ClientVersion = require('../package.json').version
 const PROTOCOL = 'https'
@@ -53,6 +54,7 @@ export class Ecredit {
   password: string
   authentication: AuthenticationApi
   experian: ExperianApi
+  transunion: TransUnionApi
 
   constructor (username: string, password: string, options?: EcreditOptions) {
     this.host = options?.host ?? ECREDIT_HOST
@@ -61,6 +63,7 @@ export class Ecredit {
     // now construct all the specific domain objects
     this.authentication = new AuthenticationApi(this, options)
     this.experian = new ExperianApi(this, options)
+    this.transunion = new TransUnionApi(this, options)
   }
 
   /*
