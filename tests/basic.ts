@@ -79,4 +79,26 @@ import { Ecredit } from '../src/index'
     console.log(fiv)
   }
 
+  const zelnino = {
+    firstName: 'ZELNINO',
+    middleName: 'X',
+    lastName: 'WINTER',
+    street1: '760WSPROULRD',
+    city: 'FANTASYISLAND',
+    state: 'IL',
+    zip: '60750',
+    ssn: '666125812'
+  }
+
+  console.log('doing a soft pull from TransUnion for FICO score...')
+  const six = await client.transunion.basic(zelnino, { config: 'tu-prequal-fico9' })
+  // console.log('six', six?.report)
+  if (six.success) {
+    console.log(`Success! Pulled the prequal report for test person... FICO Score: ${client.transunion.ficoScore(six?.report!)}`)
+    console.log(`Success! Pulled the prequal report for test person... Credit Frozen: ${client.transunion.isFrozen(six?.report!)}`)
+  } else {
+    console.log('Error! Getting soft Experian FICO pull failed, and the output is:')
+    console.log(six)
+  }
+
 })()

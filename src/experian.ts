@@ -238,7 +238,6 @@ export class ExperianApi {
    */
   isFrozen(rpt: CreditReport): boolean {
     let score = false
-    // this needs to wait until we have the data to work with
     const stmt = (rpt?.statement ?? [])
       .find(st => /.* FILE FROZEN .*/.test(st.statementText ?? ''))
     if (stmt?.dateReported) {
