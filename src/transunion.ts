@@ -274,4 +274,42 @@ export class TransUnionApi {
     const ind = rpt?.fileSummary?.creditDataStatus?.freeze?.indicator
     return !!ind
   }
+
+  /*
+   * Function to look at the public records of the TransUnion data and
+   * return a string[] of all the records - mostly Bankruptcies - that
+   * are on this credit report.
+   */
+  publicRecords(rpt: CreditReport): string[] {
+    let ans = [] as string[]
+    const recs = rpt?.custom?.credit?.publicRecords ?? []
+    for (const r of recs) {
+      const code = this.publicCodes[r?.type] as string
+      if (code) {
+        ans.push(code)
+      }
+    }
+    return ans
+  }
+
+  // ...and these are the codes for publicRecords
+  publicCodes = {
+    'CP': 'Child support',
+    '1D': 'Chapter 11 bankruptcy dismissed/closed',
+    '1F': 'Chapter 11 bankruptcy filing',
+    '1V': 'Chapter 11 bankruptcy voluntary dismissal',
+    '1X': 'Chapter 11 bankruptcy discharged',
+    '2D': 'Chapter 12 bankruptcy dismissed/closed',
+    '2F': 'Chapter 12 bankruptcy filing',
+    '2V': 'Chapter 12 bankruptcy voluntary dismissal',
+    '2X': 'Chapter 12 bankruptcy discharged',
+    '3D': 'Chapter 13 bankruptcy dismissed/closed',
+    '3F': 'Chapter 13 bankruptcy filing',
+    '3V': 'Chapter 13 bankruptcy voluntary dismissal',
+    '3X': 'Chapter 13 bankruptcy discharged',
+    '7D': 'Chapter 7 bankruptcy dismissed/closed',
+    '7F': 'Chapter 7 bankruptcy filing',
+    '7V': 'Chapter 7 bankruptcy voluntary dismissal',
+    '7X': 'Chapter 7 bankruptcy discharged',
+  } as { [index: string] : string }
 }
