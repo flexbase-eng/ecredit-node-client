@@ -1,6 +1,6 @@
 {
   "name": "@flexbase/ecredit-node-client",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Node.js Client for CRS Credit eCredit API",
   "keywords": [
     "crscreditapi.com",

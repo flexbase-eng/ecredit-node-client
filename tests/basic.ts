@@ -92,13 +92,48 @@ import { Ecredit } from '../src/index'
 
   console.log('doing a soft pull from TransUnion for FICO score...')
   const six = await client.transunion.basic(zelnino, { config: 'tu-prequal-fico9' })
-  // console.log('six', six?.report)
+  // console.log('SIX', six?.report)
   if (six.success) {
     console.log(`Success! Pulled the prequal report for test person... FICO Score: ${client.transunion.ficoScore(six?.report!)}`)
     console.log(`Success! Pulled the prequal report for test person... Credit Frozen: ${client.transunion.isFrozen(six?.report!)}`)
   } else {
     console.log('Error! Getting soft Experian FICO pull failed, and the output is:')
     console.log(six)
+  }
+
+  console.log('doing a hard pull from TransUnion for FICO score...')
+  const sev = await client.transunion.basic(zelnino, { config: 'tu-hard-fico9' })
+  // console.log('SEV', sev?.report)
+  if (sev.success) {
+    console.log(`Success! Pulled the prequal report for test person... FICO Score: ${client.transunion.ficoScore(sev?.report!)}`)
+    console.log(`Success! Pulled the prequal report for test person... Credit Frozen: ${client.transunion.isFrozen(sev?.report!)}`)
+    console.log('Issues', client.transunion.publicRecords(sev?.report!))
+  } else {
+    console.log('Error! Getting soft Experian FICO pull failed, and the output is:')
+    console.log(sev)
+  }
+
+  const taron = {
+    firstName: 'Taron',
+    middleName: '',
+    lastName: 'Mason',
+    street1: '204 WINN RD',
+    city: 'Lee',
+    state: 'ME',
+    zip: '04455-4216',
+    ssn:  '666319724',
+  }
+
+  console.log('doing a soft pull from TransUnion for FICO score...')
+  const eig = await client.transunion.basic(taron, { config: 'tu-hard-fico9' })
+  // console.log('EIG', eig?.report)
+  if (eig.success) {
+    console.log(`Success! Pulled the prequal report for test person... FICO Score: ${client.transunion.ficoScore(eig?.report!)}`)
+    console.log(`Success! Pulled the prequal report for test person... Credit Frozen: ${client.transunion.isFrozen(eig?.report!)}`)
+    console.log('Issues', client.transunion.publicRecords(eig?.report!))
+  } else {
+    console.log('Error! Getting soft Experian FICO pull failed, and the output is:')
+    console.log(eig)
   }
 
 })()
