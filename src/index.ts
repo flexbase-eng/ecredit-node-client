@@ -122,7 +122,8 @@ export class Ecredit {
         const payload = await response?.json()
         // check for an invalid token from the service
         if (response.status == 401 && Array.isArray(payload?.messages) &&
-            ['User Token Invalid', 'User Token Expired'].includes(payload?.messages)) {
+            (payload?.messages.includes('User Token Invalid') ||
+             payload?.messages.includes('User Token Expired'))) {
           const auth = await this.authentication.resetToken()
           if (!auth?.success) {
             return { response: { ...response, payload: auth } }
