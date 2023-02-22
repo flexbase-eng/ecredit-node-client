@@ -228,6 +228,7 @@ export class TransUnionApi {
     config?: string,
   }): Promise<{
     success: boolean,
+    requestId: string,
     report?: CreditReport,
     error?: EcreditError,
   }> {
@@ -246,9 +247,17 @@ export class TransUnionApi {
     // ...now make the call...
     const resp = await this.client.fire('POST', uri, undefined, data )
     if ((resp?.response?.status >= 400) || !isEmpty(resp?.payload?.timestamp)) {
-      return { success: false, error: { ...resp?.payload, type: 'ecredit' } }
+      return {
+        success: false,
+        requestId: resp?.response?.headers.get('requestid'),
+        error: { ...resp?.payload, type: 'ecredit' }
+      }
     }
-    return { success: true, report: resp?.payload }
+    return {
+      success: true,
+      requestId: resp?.response?.headers.get('requestid'),
+      report: resp?.payload
+    }
   }
 
   /*
