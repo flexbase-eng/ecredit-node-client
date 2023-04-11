@@ -480,11 +480,23 @@ export class EquifaxApi {
     for (const r of recs) {
       let code = ''
       if (r.priorIntentOrDispositionCode?.description) {
+        if (r.dateFiled) {
+          const y = r.dateFiled.substr(-4)
+          const m = r.dateFiled.substr(0, 2)
+          const d = r.dateFiled.substr(2, 2)
+          code += `[${y}-${m}-${d}] `
+        }
         code += `Prior Disposition: ${r.priorIntentOrDispositionCode?.description}`
       }
       if (r.currentIntentOrDispositionCode?.description) {
         if (code.length > 0) {
           code += '... '
+        }
+        if (r.currentDispositionDate) {
+          const y = r.currentDispositionDate.substr(-4)
+          const m = r.currentDispositionDate.substr(0, 2)
+          const d = r.currentDispositionDate.substr(2, 2)
+          code += `[${y}-${m}-${d}] `
         }
         code += `Current Disposition: ${r.currentIntentOrDispositionCode?.description}`
       }
