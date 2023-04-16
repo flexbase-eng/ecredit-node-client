@@ -159,6 +159,7 @@ import { Ecredit } from '../src/index'
     console.log(`Success! Pulled the biz report for test person... FICO Score: ${client.equifax.ficoScore(nin?.report!)}`)
     console.log(`Success! Pulled the biz report for test person... Credit Frozen: ${client.equifax.isFrozen(nin?.report!)}`)
     console.log('Bankruptcies', client.equifax.bankruptcies(nin?.report!))
+    console.log('Hard Pulls', client.equifax.hardPulls(nin?.report!))
   } else {
     console.log('Error! Getting soft Experian FICO pull failed, and the output is:')
     console.log(nin)
