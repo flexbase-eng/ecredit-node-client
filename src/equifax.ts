@@ -470,7 +470,7 @@ export class EquifaxApi {
   }
 
   /*
-   * Function to look at the public records of the TransUnion data and
+   * Function to look at the public records of the Equifax data and
    * return a string[] of all the records - mostly Bankruptcies - that
    * are on this credit report.
    */
@@ -500,6 +500,30 @@ export class EquifaxApi {
         }
         code += `Current Disposition: ${r.currentIntentOrDispositionCode?.description}`
       }
+      if (code.length > 0) {
+        ans.push(code)
+      }
+    }
+    return ans
+  }
+
+  /*
+   * Function to look at the public records of the Equifax data and
+   * return a string[] of all the records of the hard credit pulls
+   * of the form: "[YYYY-MM-DD] Company".
+   */
+  hardPulls(rpt: CreditReport): string[] {
+    let ans = [] as string[]
+    const recs = rpt?.data?.inquiries ?? []
+    for (const r of recs) {
+      let code = ''
+      if (r.inquiryDate) {
+        const y = r.inquiryDate.substr(-4)
+        const m = r.inquiryDate.substr(0, 2)
+        const d = r.inquiryDate.substr(2, 2)
+        code += `[${y}-${m}-${d}] `
+      }
+      code += (r.customerName ?? '')
       if (code.length > 0) {
         ans.push(code)
       }
