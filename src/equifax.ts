@@ -530,4 +530,91 @@ export class EquifaxApi {
     }
     return ans
   }
+
+  /*
+   * Function to return the FICO Reasons as an array of strings
+   * in the same order as they are returned by Equifax to us, so
+   * that the caller can have a human-readable set of reasons that
+   * the FICO score is what it is. This is very useful.
+   */
+  reasons(rpt: CreditReport): string[] {
+    let ans = [] as string[]
+    const fico = (rpt?.data?.models ?? [])
+      .find(rm => rm.modelNumber === '05206')
+    for (const r of (fico?.reasons ?? [])) {
+      ans.push(ficoReasons[Number(r.code)])
+    }
+    return ans
+  }
 }
+
+/*
+ * These are all the Equifax FICO Reason Codes, that will appear in
+ * the 'reasons' of the FICO model entry. These are the mapping of
+ * the codes to human-readable reasons.
+ */
+const ficoCodes = [
+  ['0', 'Returned when FICO does not return a reason code (NO VERBIAGE RETURNED)'],
+  ['1', 'Amount owed on accounts is too high'],
+  ['2', 'Level of delinquency on accounts'],
+  ['3', 'Too few bank revolving accounts'],
+  ['4', 'Too many bank or national revolving accounts'],
+  ['5', 'Too many accounts with balances'],
+  ['6', 'Too many consumer finance company accounts'],
+  ['7', 'Account payment history is too new to rate'],
+  ['8', 'Too many inquiries last 12 months'],
+  ['9', 'Too many accounts recently opened'],
+  ['10', 'Ratio of balance to limit on bank revolving or other rev accts too high'],
+  ['11', 'Amount owed on revolving accounts is too high'],
+  ['12', 'Length of time revolving accounts have been established'],
+  ['13', 'Time since delinquency is too recent or unknown'],
+  ['14', 'Length of time accounts have been established'],
+  ['15', 'Lack of recent bank revolving information'],
+  ['16', 'Lack of recent revolving account information'],
+  ['17', 'No recent non-mortgage balance information'],
+  ['18', 'Number of accounts with delinquency'],
+  ['19', 'Too few accounts currently paid as agreed'],
+  ['20', 'Length of time since derogatory public record or collection is too short'],
+  ['21', 'Amount past due on accounts'],
+  ['23', 'Number of bank or national revolving accounts with balances'],
+  ['24', 'No recent revolving balances'],
+  ['25', 'Length of time installment loans have been established (Industry Scores only)'],
+  ['26', 'Number of revolving accounts (Industry Scores only)'],
+  ['28', 'Number of established accounts'],
+  ['29', 'No recent bank/national revolving balances'],
+  ['30', 'Time since most recent account opening is too short'],
+  ['31', 'Too few accounts with recent payment information'],
+  ['32', 'Lack of recent installment loan information'],
+  ['33', 'Proportion of loan balances to loan amounts is too high'],
+  ['34', 'Amount owed on delinquent accounts'],
+  ['36', 'Length of time open installment loans have been established'],
+  ['38', 'Serious delinquency, and derogatory public record or collection filed'],
+  ['39', 'Serious delinquency'],
+  ['40', 'Derogatory public record or collection filed'],
+  ['53', 'Amount paid down on open mortgage loans is too low 55* Amount paid down on open installment loans is too low'],
+  ['58', 'Proportion of balances to loan amounts on mortgage accounts is too high'],
+  ['59', 'Lack of recent revolving HELOC information'],
+  ['62', 'Proportion of balances to credit limits on revolving HELOC accounts is too high'],
+  ['64', 'Proportion of revolving HELOC balances to total revolving balances is too high'],
+  ['65', 'Length of time bank/national revolving accounts have been established'],
+  ['67', 'Length of time open mortgage loans have been established'],
+  ['70', 'Amount owed on mortgage loans is too high'],
+  ['71', 'Too many recently opened installment accounts'],
+  ['77', 'Proportion of balances to loan amounts on revolving auto accounts is too high'],
+  ['78', 'Length of time reported mortgage accounts have been established'],
+  ['79', 'Lack of recent reported mortgage loan information'],
+  ['81', 'Frequency of delinquency'],
+  ['85', 'Too few active accounts'],
+  ['96', 'Too many mortgage loans with balances'],
+  ['98', 'Lack of recent auto finance loan information (Industry Scores only)'],
+  ['99', 'Lack of recent consumer finance company account information (Industry Scores only)'],
+]
+/*
+ * Now let's make a sparse array where each of the codes is an index, and
+ * the value at that index is the string reason. This will make lookup by
+ * numeric code much easier.
+ */
+const ficoReasons = ficoCodes.reduce((acc: string[], tup: string[]) => {
+  acc[Number(tup[0])] = tup[1]
+  return acc
+}, [] as string[])
