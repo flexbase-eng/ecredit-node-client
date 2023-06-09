@@ -12,7 +12,6 @@ import { Ecredit } from '../src/index'
   // console.log('ONE', one)
   if (one.success) {
     console.log('Success!')
-    console.log(one)
   } else {
     console.log('Error! I was not able to get a valid auth token')
     console.log(one)
