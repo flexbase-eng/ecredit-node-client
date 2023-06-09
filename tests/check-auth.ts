@@ -12,6 +12,7 @@ import { Ecredit } from '../src/index'
   // console.log('ONE', one)
   if (one.success) {
     console.log('Success!')
+    console.log(one)
   } else {
     console.log('Error! I was not able to get a valid auth token')
     console.log(one)
@@ -21,7 +22,7 @@ import { Ecredit } from '../src/index'
   if (client.authentication.token) {
     console.log('Success!')
   } else {
-    console.log('Error! I was not able to veify the new auth token')
+    console.log('Error! I was not able to verify the new auth token')
     console.log(client.authentication.token)
   }
 

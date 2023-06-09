@@ -145,6 +145,7 @@ with CRS Credit:
 
 * `ECREDIT_USERNAME` - this is the CRS Credit generated "username".
 * `ECREDIT_PASSWORD` - this is the CRS Credit "password".
+* `ECREDIT_HOST` - this is the CRS Host "host".
 
 ### Testing
 

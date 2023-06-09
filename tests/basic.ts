@@ -213,4 +213,12 @@ import { Ecredit } from '../src/index'
     console.log(ele)
   }
 
+  console.log('pulling the first page of user logs...')
+  const _logs = await client.user.basic({ page: 0 })
+  if (_logs.success) {
+    console.log(`Sucess! Pulled the logs for the authorized account... Count is: ${_logs?.report}`)
+  } else {
+    console.log('Error! Getting the logs for the authorized account failed, and the output is:')
+    console.log(_logs)
+  }
 })()
