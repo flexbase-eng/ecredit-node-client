@@ -435,13 +435,13 @@ export class EquifaxApi {
     if ((resp?.response?.status >= 400) || !isEmpty(resp?.payload?.timestamp)) {
       return {
         success: false,
-        requestId: resp?.response?.headers.get('requestid'),
+        requestId: resp?.response?.headers?.get('requestid'),
         error: { ...resp?.payload, type: 'ecredit' }
       }
     }
     return {
       success: true,
-      requestId: resp?.response?.headers.get('requestid'),
+      requestId: resp?.response?.headers?.get('requestid'),
       report: resp?.payload
     }
   }
@@ -543,6 +543,20 @@ export class EquifaxApi {
       .find(rm => rm.modelNumber === '05206')
     for (const r of (fico?.reasons ?? [])) {
       ans.push(ficoReasons[Number(r.code)])
+    }
+    return ans
+  }
+
+  /*
+   * Function to return the Hit Code from Equifax and CRS that
+   * can be very useful if it's *not* 'Hit' - so it is useful
+   * to check this by the caller to make sure things went well.
+   */
+  hitCode(rpt: CreditReport): string | undefined {
+    let ans
+    const hit = rpt?.data?.hitCode
+    if (hit?.description) {
+      ans = hit.description
     }
     return ans
   }
