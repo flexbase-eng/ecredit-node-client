@@ -95,6 +95,7 @@ export class Ecredit {
     let headers = {
       Accept: 'application/json',
       'X-ECredit-Client-Ver': ClientVersion,
+      'Cache-Control': 'no-cache',
     } as any
     if (!isForm) {
       headers = { ...headers, 'Content-Type': 'application/json' }
