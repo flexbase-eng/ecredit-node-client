@@ -215,3 +215,23 @@ export function removeEmpty(obj: any): any {
   }
   return obj
 }
+
+/*
+ * Simple function to take a number and use the Intl.NumberFormat to make
+ * it into a USD-style string with commas as a separator, and the '$' at
+ * the front. This is just easier to do one, and reuse over and over.
+ */
+export function toUsd(x: any): any {
+  switch (typeof x) {
+    case 'undefined': return '$0.00'
+    case 'number': return usdStyle.format(x)
+    case 'string': return usdStyle.format(Number(x.replaceAll(/\$|,/g,'')))
+    default: return x
+  }
+}
+
+const usdStyle = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  currencySign: 'accounting',
+})

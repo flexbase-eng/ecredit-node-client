@@ -7,23 +7,21 @@ import { Ecredit } from '../src/index'
     { host: process.env.ECREDIT_HOST! }
   )
 
-  const asad = {
-    firstName: 'ASAD',
-    lastName: 'YCSWL',
-    houseNumber: '8615',
-    quadrant: 'NW',
-    streetName: 'Black Tern',
-    streetType: 'LN',
-    city: 'HOUSTON',
-    state: 'TX',
-    zip: '77040',
-    ssn: '666-17-6062',
-    dob: '1985-05-06',
-    phone: '713-555-1212'
+  const pOne = {
+    firstName: 'ABAYNJ',
+    middleName: 'L',
+    lastName: 'HYIQKKEDXDGFUZ',
+    ssn: '666008413',
+    dob: '',
+    houseNumber: '2438',
+    streetName: 'JACVEAXP PRT',
+    city: 'ELLERSLIE',
+    state: 'GA',
+    zip: '31807',
   }
 
   console.log('doing a soft pull from Equifax for normal FICO score...')
-  const one = await client.equifax.basic(asad, { config: 'efx-prequal-fico9' })
+  const one = await client.equifax.basic(pOne, { config: 'efx-prequal-fico9' })
   // console.log('ONE', one?.report)
   if (one.success) {
     console.log(`Success! Pulled the soft pull for test person... FICO Score: ${client.equifax.ficoScore(one?.report!)}`)
@@ -31,13 +29,15 @@ import { Ecredit } from '../src/index'
     console.log('Bankruptcies', client.equifax.bankruptcies(one?.report!))
     console.log('Hard Pulls', client.equifax.hardPulls(one?.report!))
     console.log('Reasons', client.equifax.reasons(one?.report!))
+    console.log('Credit Lines', client.equifax.creditLines(one?.report!))
+    console.log('HitCode', client.equifax.hitCode(one?.report!))
   } else {
     console.log('Error! Getting soft Experian FICO pull failed, and the output is:')
     console.log(one)
   }
 
   console.log('doing a business principal pull from Equifax for normal FICO score...')
-  const two = await client.equifax.basic(asad, { config: 'efx-business-principal-fico9' })
+  const two = await client.equifax.basic(pOne, { config: 'efx-business-principal-fico9' })
   // console.log('TWO', two?.report)
   if (two.success) {
     console.log(`Success! Pulled the biz report for test person... FICO Score: ${client.equifax.ficoScore(two?.report!)}`)
@@ -45,6 +45,8 @@ import { Ecredit } from '../src/index'
     console.log('Bankruptcies', client.equifax.bankruptcies(two?.report!))
     console.log('Hard Pulls', client.equifax.hardPulls(two?.report!))
     console.log('Reasons', client.equifax.reasons(two?.report!))
+    console.log('Credit Lines', client.equifax.creditLines(two?.report!))
+    console.log('HitCode', client.equifax.hitCode(two?.report!))
   } else {
     console.log('Error! Getting business principal Experian FICO pull failed, and the output is:')
     console.log(two)
@@ -70,6 +72,8 @@ import { Ecredit } from '../src/index'
     console.log('Bankruptcies', client.equifax.bankruptcies(tre?.report!))
     console.log('Hard Pulls', client.equifax.hardPulls(tre?.report!))
     console.log('Reasons', client.equifax.reasons(tre?.report!))
+    console.log('Credit Lines', client.equifax.creditLines(tre?.report!))
+    console.log('HitCode', client.equifax.hitCode(tre?.report!))
   } else {
     console.log('Error! Getting soft Experian FICO pull failed, and the output is:')
     console.log(tre)
@@ -84,6 +88,8 @@ import { Ecredit } from '../src/index'
     console.log('Bankruptcies', client.equifax.bankruptcies(fou?.report!))
     console.log('Hard Pulls', client.equifax.hardPulls(fou?.report!))
     console.log('Reasons', client.equifax.reasons(fou?.report!))
+    console.log('Credit Lines', client.equifax.creditLines(fou?.report!))
+    console.log('HitCode', client.equifax.hitCode(fou?.report!))
   } else {
     console.log('Error! Getting business principal Experian FICO pull failed, and the output is:')
     console.log(fou)
@@ -110,6 +116,8 @@ import { Ecredit } from '../src/index'
     console.log('Bankruptcies', client.equifax.bankruptcies(fiv?.report!))
     console.log('Hard Pulls', client.equifax.hardPulls(fiv?.report!))
     console.log('Reasons', client.equifax.reasons(fiv?.report!))
+    console.log('Credit Lines', client.equifax.creditLines(fiv?.report!))
+    console.log('HitCode', client.equifax.hitCode(fiv?.report!))
   } else {
     console.log('Error! Getting business principal Experian FICO pull failed, and the output is:')
     console.log(fiv)
@@ -124,6 +132,8 @@ import { Ecredit } from '../src/index'
     console.log('Bankruptcies', client.equifax.bankruptcies(six?.report!))
     console.log('Hard Pulls', client.equifax.hardPulls(six?.report!))
     console.log('Reasons', client.equifax.reasons(six?.report!))
+    console.log('Credit Lines', client.equifax.creditLines(six?.report!))
+    console.log('HitCode', client.equifax.hitCode(six?.report!))
   } else {
     console.log('Error! Getting business principal Experian FICO pull failed, and the output is:')
     console.log(six)
