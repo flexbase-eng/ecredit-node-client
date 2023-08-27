@@ -373,7 +373,7 @@ export interface GeoCode {
   microVisionReturnCode: string;
 }
 
-import { isEmpty } from './'
+import { isEmpty, toUsd } from './'
 
 export class EquifaxApi {
   client: Ecredit
@@ -543,6 +543,27 @@ export class EquifaxApi {
       .find(rm => rm.modelNumber === '05206')
     for (const r of (fico?.reasons ?? [])) {
       ans.push(ficoReasons[Number(r.code)])
+    }
+    return ans
+  }
+
+  /*
+   * Function to format the Trades in the CreditReport and format
+   * each as a concise description for display. This is just another
+   * way to look at the Trades, aka credit lines.
+   */
+  creditLines(rpt: CreditReport): string[] {
+    let ans = [] as string[]
+    const lines = rpt?.data?.trades ?? []
+    for (const l of lines) {
+      let code = `${l.customerName} [${isEmpty(l.closedDate) ? 'Open' : 'Closed'}] `
+      if (!isEmpty(l.portfolioTypeCode?.description)) {
+        code += l.portfolioTypeCode?.description
+      }
+      code += `, max: ${toUsd(l.highCredit)}, balance: ${toUsd(l.balance)}`
+      if (code.length > 24) {
+        ans.push(code)
+      }
     }
     return ans
   }
